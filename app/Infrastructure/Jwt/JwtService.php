@@ -49,6 +49,11 @@ class JwtService implements AuthenticatableServiceInterface
         return JWT::encode($data, $secretKey, $jwtHashAlgorithm);
     }
 
+    public function decode(string $token, AuthenticatableInterface $authenticatable): AuthenticatableInterface
+    {
+        return $authenticatable;
+    }
+
     /**
      * @throws Exception
      */
