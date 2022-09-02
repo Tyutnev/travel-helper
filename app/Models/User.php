@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\TravelHelper\Login\Contract\AuthenticatableInterface;
 use DateTime;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -18,7 +19,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string        $password
  * @property string        $status
  */
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, AuthenticatableInterface
 {
-
+    public function getPayload(): string
+    {
+        return (string) $this->getKey();
+    }
 }
