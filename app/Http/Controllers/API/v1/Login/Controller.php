@@ -2,31 +2,33 @@
 
 namespace App\Http\Controllers\API\v1\Login;
 
-use App\Infrastructure\Jwt\JwtService;
-use App\Repository\UserRepository;
-use App\TravelHelper\Login\AuthenticatableServiceInterface;
+use App\Http\Requests\API\v1\Login\LoginRequest;
+use App\Http\Utility\ResponseFactory;
+use App\TravelHelper\Login\Action\LoginAction;
+use App\TravelHelper\Login\Exception\LoginException;
 use Exception;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class Controller
 {
-    private AuthenticatableServiceInterface $authenticatableService;
-    private UserRepository                  $userRepository;
+    private LoginAction     $loginAction;
+    private ResponseFactory $responseFactory;
 
-    public function __construct(
-        JwtService     $jwtService,
-        UserRepository $userRepository
-    )
+    public function __construct(LoginAction $loginAction, ResponseFactory $responseFactory)
     {
-        $this->authenticatableService = $jwtService;
-        $this->userRepository         = $userRepository;
+        $this->loginAction     = $loginAction;
+        $this->responseFactory = $responseFactory;
     }
 
-    /**
-     * @throws Exception
-     */
-    public function run(Request $request): void
+    public function run(LoginRequest $request): JsonResponse
     {
-
+        try {
+            $token = $this->loginAction->run($request->getData());
+            return $this->responseFactory->success('Login', [
+                'token' => $token,
+            ]);
+        } catch (LoginException|Exception $e) {
+            return $this->responseFactory->error($e->getMessage());
+        }
     }
 }
