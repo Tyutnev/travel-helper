@@ -6,6 +6,7 @@ use App\Infrastructure\Jwt\JwtService;
 use App\Repository\UserRepository;
 use App\TravelHelper\Login\AuthenticatableServiceInterface;
 use Exception;
+use Illuminate\Http\Request;
 
 class Controller
 {
@@ -24,7 +25,7 @@ class Controller
     /**
      * @throws Exception
      */
-    public function run(): void
+    public function run(Request $request): void
     {
 
     }
