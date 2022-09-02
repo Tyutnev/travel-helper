@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\v1\Login;
 
+use App\Http\Controllers\BaseController;
 use App\Http\Requests\API\v1\Login\LoginRequest;
 use App\Http\Utility\ResponseFactory;
 use App\TravelHelper\Login\Action\LoginAction;
@@ -9,7 +10,7 @@ use App\TravelHelper\Login\Exception\LoginException;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
-class Controller
+class Controller extends BaseController
 {
     private LoginAction     $loginAction;
     private ResponseFactory $responseFactory;
